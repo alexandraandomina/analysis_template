@@ -92,7 +92,7 @@ private:
     TH2F* dcaX_vs_dcaY_;
     TH1F* cut5_dcaX_distribution_,* cut5_dcaY_distribution_;
     TH2F* cut5_dcaX_vs_dcaY_;
-    TH1F* cut5_mult_dist_;
+    TH1F* cut5_mult_dist_, *cut5_mult_dist_scaled_;
     TH2F* cut5_psd_energy_vs_mult_;
 
     // cut6: Nhits
@@ -101,25 +101,33 @@ private:
     TH1F* cut6_nhits_total_distribution_, * cut6_nhits_vtpc1_distribution_, * cut6_nhits_vtpc2_distribution_, * cut6_nhits_mtpc_distribution_;
     //TH1F* cut6_nhits_pot_total_distribution_, * cut6_nhits_pot_vtpc1_distribution_, * cut6_nhits_pot_vtpc2_distribution_, * cut6_nhits_pot_mtpc_distribution_;
     TH1F* nhits_divided_nhits_pot_;
+    TH2F* nhits_total_vs_ratio_, *cut6_nhits_total_vs_ratio_;
     TH2F* nhits_vtpc1_vs_vtpc2, * nhits_vtpc_vs_mtpc, * nhits_mtpc_vs_total;
     TH2F* cut6_nhits_vtpc1_vs_vtpc2, * cut6_nhits_vtpc_vs_mtpc, * cut6_nhits_mtpc_vs_total;
     TH1F* cut6_nhits_divided_nhits_pot_;
-    TH1F* cut6_mult_dist_;
+    TH1F* cut6_mult_dist_, *cut6_mult_dist_scaled_ ;
     TH2F* cut6_psd_energy_vs_mult_;
 
     // dEdx_vs_q
     TH1F* dedx_distribution_, * p_distribution_, * q_distribution_;
-    TH2F* dedx_vs_p_dist_, * pions_dedx_vs_p_dist_;
+    TH2F* dedx_vs_p_dist_, *pions_dedx_vs_p_dist_, *protons_dedx_vs_p_dist_, *protons_all_dedx_vs_p_dist_;
 
     // all cuts
-    TH1F* all_cut_mult_dist_, * pions_multiplicity_dist_;
+    TH1F* all_cut_mult_dist_, *all_cut_mult_dist_scaled_;
+    TH1F* pions_multiplicity_dist_, *pions_multiplicity_dist_scaled_;
+    TH1F* protons_multiplicity_dist_, *protons_multiplicity_dist_scaled_;
+    TH1F* protons_all_multiplicity_dist_, *protons_all_multiplicity_dist_scaled_;
     TH2F* all_cut_psd_energy_vs_mult_;
     TH1F* all_cut_p_distribution_;
     TH2F* all_cut_dedx_vs_p_dist_;
 
     // kinematic for pions
-    TH1F* pions_pT_distribution_, * pions_eta_distribution_, * pions_phi_distribution_;
-    TH2F* pions_pT_vs_eta_, * pions_pT_vs_phi_, * pions_phi_vs_eta_;
+    TH1F* pions_pT_distribution_, *pions_eta_distribution_, *pions_phi_distribution_, *pions_rapidity_;
+    TH2F* pions_pT_vs_eta_, * pions_pT_vs_phi_, * pions_phi_vs_eta_, * pions_rapidity_vs_pT_, * pions_rapidity_vs_phi;
+    TH1F* protons_pT_distribution_, * protons_eta_distribution_, * protons_phi_distribution_, * protons_rapidity_;
+    TH2F* protons_pT_vs_eta_, * protons_pT_vs_phi_, * protons_phi_vs_eta_, * protons_rapidity_vs_pT_, * protons_rapidity_vs_phi;
+    TH1F* protons_all_pT_distribution_, * protons_all_eta_distribution_, * protons_all_phi_distribution_, * protons_all_rapidity_;
+    TH2F* protons_all_pT_vs_eta_, * protons_all_pT_vs_phi_, * protons_all_phi_vs_eta_, * protons_all_rapidity_vs_pT_, * protons_all_rapidity_vs_phi;
 
     TASK_DEF(AnalysisTask, 0)
 };
