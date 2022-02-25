@@ -33,6 +33,11 @@ public:
         UserTask::PostFinish();
     }
 private:
+    //TFile *file_M{TFile::Open("out_tree", "create")};
+    TTree *tree{new TTree("tree", "tree")};
+    Int_t M_good, M_cut_dca, M_cut_tpc, M_ch, M_pi, M_p;
+    //ATI2::Branch* branch_Mch_cut_dca, *branch_Mch_all_cuts, *branch_Mpi, *branch_Mp;
+
     /* pointers to link tree's branches with */
     ATI2::Branch* event_header_{nullptr}; 		// event info
     ATI2::Branch* vtx_tracks_{nullptr}; 		        // reconstructed tracks
@@ -60,7 +65,7 @@ private:
     //TCutG *cutg;
 
     //before cut
-    TH1F* multiplicity_distribution_, * psd_energy_distribution_;
+    TH1F* multiplicity_distribution_, * psd_energy_distribution_, *psd_energy_distribution_central_, *psd_energy_distribution_pherical_;
     TH2F* psd_energy_vs_mult_;
     TH1F* pT_distribution_, * eta_distribution_, * phi_distribution_;
     TH2F* pT_vs_eta_, * pT_vs_phi_, * phi_vs_eta_;
@@ -84,8 +89,8 @@ private:
     TH2F* cut4_psd_energy_vs_mult_;
 
     // histo for good event without track cuts
-    TH1F* good_events_mult_dist_;
-    TH2F* good_events_psd_energy_vs_mult_;
+    TH1F* good_events_mult_dist_scaled_;
+    TH2F* good_events_psd_energy_vs_mult_, *all_cut_psd_energy_central_vs_mult_, *all_cut_psd_energy_pherical_vs_mult_ ;
 
     // cut5: dcaX && dcaY
     TH1F* dcaX_distribution_, * dcaY_distribution_;
@@ -101,7 +106,7 @@ private:
     TH1F* cut6_nhits_total_distribution_, * cut6_nhits_vtpc1_distribution_, * cut6_nhits_vtpc2_distribution_, * cut6_nhits_mtpc_distribution_;
     //TH1F* cut6_nhits_pot_total_distribution_, * cut6_nhits_pot_vtpc1_distribution_, * cut6_nhits_pot_vtpc2_distribution_, * cut6_nhits_pot_mtpc_distribution_;
     TH1F* nhits_divided_nhits_pot_;
-    TH2F* nhits_total_vs_ratio_, *cut6_nhits_total_vs_ratio_;
+    TH2F* nhits_total_vs_potential_, *cut6_nhits_total_vs_potential_;
     TH2F* nhits_vtpc1_vs_vtpc2, * nhits_vtpc_vs_mtpc, * nhits_mtpc_vs_total;
     TH2F* cut6_nhits_vtpc1_vs_vtpc2, * cut6_nhits_vtpc_vs_mtpc, * cut6_nhits_mtpc_vs_total;
     TH1F* cut6_nhits_divided_nhits_pot_;
@@ -122,13 +127,23 @@ private:
     TH2F* all_cut_dedx_vs_p_dist_;
 
     // kinematic for pions
-    TH1F* pions_pT_distribution_, *pions_eta_distribution_, *pions_phi_distribution_, *pions_rapidity_;
-    TH2F* pions_pT_vs_eta_, * pions_pT_vs_phi_, * pions_phi_vs_eta_, * pions_rapidity_vs_pT_, * pions_rapidity_vs_phi;
-    TH1F* protons_pT_distribution_, * protons_eta_distribution_, * protons_phi_distribution_, * protons_rapidity_;
-    TH2F* protons_pT_vs_eta_, * protons_pT_vs_phi_, * protons_phi_vs_eta_, * protons_rapidity_vs_pT_, * protons_rapidity_vs_phi;
-    TH1F* protons_all_pT_distribution_, * protons_all_eta_distribution_, * protons_all_phi_distribution_, * protons_all_rapidity_;
-    TH2F* protons_all_pT_vs_eta_, * protons_all_pT_vs_phi_, * protons_all_phi_vs_eta_, * protons_all_rapidity_vs_pT_, * protons_all_rapidity_vs_phi;
+    TH1F* pions_pT_distribution_, *pions_p_distribution_, *pions_eta_distribution_, *pions_phi_distribution_, *pions_rapidity_;
+    TH2F* pions_mult_vs_psd_energy_, *pions_mult_vs_psd_energy_central_, *pions_mult_vs_psd_energy_pherical_;
+    TH2F* pions_pT_vs_eta_, * pions_pT_vs_phi_, * pions_phi_vs_eta_, * pions_rapidity_vs_pT_, * pions_rapidity_vs_phi_;
+    // pions with cut (y,pT)
+    TH1F* pions_rapidity_cut_y1_, *pions_rapidity_cut_y2_, *pions_rapidity_cut_y3_, *pions_pT_cut_y_pt1_, *pions_pT_cut_y_pt2_;
+    TH1F* pions_pT_distribution_cut_y_pt1_, *pions_pT_distribution_cut_y_pt2_;
+    TH2F* pions_pT_vs_phi_cut_y1_, *pions_rapidity_vs_pT_cut_y1_, *pions_rapidity_vs_phi_cut_y1_;
+    TH2F* pions_pT_vs_phi_cut_y2_, *pions_rapidity_vs_pT_cut_y2_, *pions_rapidity_vs_phi_cut_y2_;
+    TH2F* pions_pT_vs_phi_cut_y_pt1_, *pions_rapidity_vs_pT_cut_y_pt1_, *pions_rapidity_vs_phi_cut_y_pt1_;
+    TH2F* pions_pT_vs_phi_cut_y_pt2_, *pions_rapidity_vs_pT_cut_y_pt2_, *pions_rapidity_vs_phi_cut_y_pt2_;
+    TH2F* pions_pT_vs_phi_cut_y3_, *pions_rapidity_vs_pT_cut_y3_, *pions_rapidity_vs_phi_cut_y3_;
+    TH1F * pions_mult_cut_y1, *pions_mult_cut_y2, *pions_mult_cut_y3, *pions_mult_cut_y_pt1, *pions_mult_cut_y_pt2;
+    TH2F *pions_mult_vs_psd_energy_cut_y1, *pions_mult_vs_psd_energy_cut_y2, *pions_mult_vs_psd_energy_cut_y3, *pions_mult_vs_psd_energy_cut_y_pt1, *pions_mult_vs_psd_energy_cut_y_pt2;
 
+    TH1F* protons_pT_distribution_, *protons_p_distribution_, *protons_eta_distribution_, *protons_phi_distribution_, * protons_rapidity_;
+    TH2F* protons_mult_vs_psd_energy_, *protons_mult_vs_psd_energy_central_, *protons_mult_vs_psd_energy_pherical_;
+    TH2F* protons_pT_vs_eta_, *protons_pT_vs_phi_, *protons_phi_vs_eta_, *protons_rapidity_vs_pT_, *protons_rapidity_vs_phi;
     TASK_DEF(AnalysisTask, 0)
 };
 #endif // QUALITY_ASSURANCE_SRC_TREE_READER_H_
